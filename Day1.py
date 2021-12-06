@@ -32,12 +32,14 @@ To do this, count the number of times a depth measurement increases from the pre
 In this example, there are 7 measurements that are larger than the previous measurement.
 
 How many measurements are larger than the previous measurement?
+
+INPUT: https://adventofcode.com/2021/day/1/input
 '''
 
 import pandas as pd
 
 # Read Input File
-df = pd.read_csv("Day1input.txt", sep = "\n", header = None)
+df = pd.read_csv("Day1.txt", sep = "\n", header = None)
 data = df[0]
 # Check Measurements
 count = 0
