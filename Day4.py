@@ -76,11 +76,11 @@ for i in numbers:
     if bingo:
         break
     for row in range(len(boards)):
-        hline = list(boards[boards.columns[0:5]].iloc[row])
-        if i in hline:
-            idx = hline.index(i)
-            result[idx][row] = True
+        line = list(boards[boards.columns[0:5]].iloc[row])
+        if i in line:
+            idx = line.index(i)
             rows  = [n for n, val in enumerate(boards[5]) if val == str(row//5)]
+            result[idx][row] = True
             if result.iloc[row].all():
                 winno = i
                 bingo = True
@@ -105,5 +105,26 @@ Figure out which board will win last. Once it wins, what would its final score b
 '''
 
 result = pd.DataFrame(False, index=range(500), columns=range(5))
+winners = []
 
+for i in numbers:
+    for row in range(len(boards)):
+        line = list(boards[boards.columns[0:5]].iloc[row])
+        if i in line:
+            idx = line.index(i)
+            rows  = [n for n, val in enumerate(boards[5]) if val == str(row//5)]
+            if str(row//5) not in winners:
+                result[idx][row] = True
+                if result.iloc[row].all():
+                    winno = i
+                    winners.append(str(row//5))   
+                    continue
+                if result[idx][min(rows):max(rows)+1].all():
+                    winno = i
+                    winners.append(str(row//5))
+                    continue
 
+board = boards[boards[5]==winners[len(winners)-1]][boards.columns[0:5]]
+unmark = board.apply(pd.to_numeric)*(1^result)
+
+print(int(winno) * unmark.sum().sum())
