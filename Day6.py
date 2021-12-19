@@ -75,7 +75,8 @@ After 256 days in the example above, there would be a total of 26984457539 lante
 
 How many lanternfish would there be after 256 days?
 '''
-# The previous approax takes too much computing power, lets find a different approach
+# The previous approax takes too much computing power since its exponential growth.
+# Lets approach the problem taking care of the states
 
 lanterns = list(df[0])
 
@@ -99,9 +100,12 @@ for day in range(256):
         3 : fishs[4],
         4 : fishs[5],
         5 : fishs[6],
-        6 : fishs[7],
+        6 : fishs[7] + fishs[0],
         7 : fishs[8],
         8 : fishs[0]
     }
     
-print(fishs.size)
+total = 0
+for i in fishs:
+    total += fishs[i]
+print(total)
