@@ -22,9 +22,10 @@ The risk level of a low point is 1 plus its height. In the above example, the ri
 Find all of the low points on your heightmap. What is the sum of the risk levels of all low points on your heightmap?
 '''
 
-data = [x for x in open('Day9.txt', 'r').read()]
+data = open('Day9.txt', 'r').read().split('\n')
 
 heighs = list()
+risks = list()
 
 for i, line in enumerate(data):
     for x in range(len(line)):
@@ -33,17 +34,22 @@ for i, line in enumerate(data):
         elif (i == 0) and (x == len(line)-1): # right-up corner
             adj = list(map(int, [line[x-1], data[i+1][x]]))
         elif (i == len(data)-1) and (x == 0): # left-down corner
-            adj = list(map(int, [line[x+1]], data[i-1][x]))
+            adj = list(map(int, [line[x+1], data[i-1][x]]))
         elif (i == len(data)-1) and (x == len(line)-1): # right-down corner
-            adj = list(map(int, [line[x-1]], data[i-1][x]))
-        elif i == 0: 
+            adj = list(map(int, [line[x-1], data[i-1][x]]))
+        elif i == 0: # first line
+            adj = list(map(int, [data[i+1][x], line[x-1], line[x+1]]))
+        elif i == len(data)-1: # last line
+            adj = list(map(int, [data[i-1][x], line[x-1], line[x+1]]))
+        elif x == 0:# first character
+            adj = list(map(int, [data[i-1][x], data[i+1][x], line[x+1]]))
+        elif x == len(line)-1: # last character
+            adj = list(map(int, [data[i-1][x], data[i+1][x], line[x-1]]))
+        else: # rest of characters
+            adj = [int(line[x-1]), int(line[x+1]), int(data[i-1][x]), int(data[i+1][x])]
+        
+        if int(line[x]) < min(adj):
+            heighs.append(line[x])
+            risks.append(int(line[x])+1)
 
-        if (y != 0) and (y != len(data[y])-1) and (x != 0) and (x != len(line)-1):
-            adj = [int(line[x-1]), int(line[x+1]), int(data[y-1][x]), int(data[y+1][x])]
-        elif (y == 0) and (x != 0) and (x != len(line)-1):
-            adj = []
-        elif (y == len(data[y]-1)) and (x != 0) and (x != len(line)-1):
-            edj = []
-        elif x
-            if line[x] < min(adj):
-                heighs.append(line[x])
+print(sum(risks))
