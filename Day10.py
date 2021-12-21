@@ -157,17 +157,18 @@ scores = list()
 
 for i, line in enumerate(idata):
     stack = list()
+    iscore = 0
     for c in range(len(line)):
         if line[c] in openers:
             stack.append(line[c])
         if line[c] in closers:
             stack.pop()
-        if (c == len(line)-1) and (len(stack) > 0):
-            stack.reverse()
-            print(len(stack))
-            for s in range(len(stack)):
-                iscore = iscore*5 + ipoints[stack[s]]
-            scores.append(iscore)
+    if len(stack) > 0:
+        stack.reverse()
+        print(len(stack), ' : ', iscore)
+        for s in range(len(stack)):
+            iscore = iscore*5 + ipoints[stack[s]]
+        scores.append(iscore)
 
 scores.sort()
 print(scores[len(scores)//2+1])
