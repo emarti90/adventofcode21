@@ -171,4 +171,4 @@ for i, line in enumerate(idata):
         scores.append(iscore)
 
 scores.sort()
-print(scores[len(scores)//2+1])
+print(scores[len(scores)//2])
