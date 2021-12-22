@@ -180,118 +180,12 @@ After step 10:
 5532252350
 0532250600
 0032240000
-After step 10, there have been a total of 204 flashes. Fast forwarding, here is the same configuration every 10 steps:
+After step 10, there have been a total of 204 flashes.
 
-After step 20:
-3936556452
-5686556806
-4496555690
-4448655580
-4456865570
-5680086577
-7000009896
-0000000344
-6000000364
-4600009543
-
-After step 30:
-0643334118
-4253334611
-3374333458
-2225333337
-2229333338
-2276733333
-2754574565
-5544458511
-9444447111
-7944446119
-
-After step 40:
-6211111981
-0421111119
-0042111115
-0003111115
-0003111116
-0065611111
-0532351111
-3322234597
-2222222976
-2222222762
-
-After step 50:
-9655556447
-4865556805
-4486555690
-4458655580
-4574865570
-5700086566
-6000009887
-8000000533
-6800000633
-5680000538
-
-After step 60:
-2533334200
-2743334640
-2264333458
-2225333337
-2225333338
-2287833333
-3854573455
-1854458611
-1175447111
-1115446111
-
-After step 70:
-8211111164
-0421111166
-0042111114
-0004211115
-0000211116
-0065611111
-0532351111
-7322235117
-5722223475
-4572222754
-
-After step 80:
-1755555697
-5965555609
-4486555680
-4458655580
-4570865570
-5700086566
-7000008666
-0000000990
-0000000800
-0000000000
-
-After step 90:
-7433333522
-2643333522
-2264333458
-2226433337
-2222433338
-2287833333
-2854573333
-4854458333
-3387779333
-3333333333
-
-After step 100:
-0397666866
-0749766918
-0053976933
-0004297822
-0004229892
-0053222877
-0532222966
-9322228966
-7922286866
-6789998766
 After 100 steps, there have been a total of 1656 flashes.
 
 Given the starting energy levels of the dumbo octopuses in your cavern, simulate 100 steps.
+
 How many total flashes are there after 100 steps?
 '''
 import numpy as np
@@ -341,10 +235,47 @@ for day in range(100):
         for x in range(len(octopi[y])):
             increase_energy(y, x)
     flash += flashed.sum()
-            
 
+print(flash)    
 
+'''
+--- Part Two ---
+It seems like the individual flashes aren't bright enough to navigate. However, you might have a better option: the flashes seem to be synchronizing!
 
-        
+In the example above, the first time all octopuses flash simultaneously is step 195:
+
+After step 193:     After step 194:     After step 195:
+5877777777          6988888888          0000000000
+8877777777          9988888888          0000000000
+7777777777          8888888888          0000000000
+7777777777          8888888888          0000000000
+7777777777          8888888888          0000000000
+7777777777          8888888888          0000000000
+7777777777          8888888888          0000000000
+7777777777          8888888888          0000000000
+7777777777          8888888888          0000000000
+7777777777          8888888888          0000000000
+
+If you can calculate the exact moments when the octopuses will all flash simultaneously, you should be able to navigate through the cavern. What is the first step during which all octopuses flash?
+'''
+octopi = np.array([list(i) for i in data], dtype='int')
+
+step = 0
+
+flash = False
+
+while(not flash):
+    flashed = np.zeros((10, 10), dtype = bool)
+    for y in range(len(octopi)):
+        for x in range(len(octopi[y])):
+            octopi[y][x] += 1
+    for y in range(len(octopi)):
+        for x in range(len(octopi[y])):
+            increase_energy(y, x)
+    if flashed.sum() == 100:
+        flash = True
+    step += 1
+
+print(step)     
             
 
